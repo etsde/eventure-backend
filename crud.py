@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from .models import Inventory
-from .schemas import InventoryCreate, InventoryUpdate
+from models import Inventory
+from schemas import InventoryCreate, InventoryUpdate
 
 def get_inventory(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Inventory).offset(skip).limit(limit).all()
