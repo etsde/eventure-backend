@@ -1,19 +1,24 @@
-from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, CheckConstraint
-from sqlalchemy.sql import func
+from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
+from sqlalchemy.orm import relationship
 from database import Base
+from datetime import datetime
 
-class Inventory(Base):
-    __tablename__ = "inventory"
-
+# User-Tabelle (Mitarbeiterverwaltung)
+class User(Base):
+    __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    type = Column(String, nullable=False)
-    quantity = Column(Integer, default=1)
-    status = Column(String, default="Verfügbar")
-    description = Column(Text, nullable=True)
-    created_at = Column(TIMESTAMP, server_default=func.now())
+    role = Column(String, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=False)
+    password_hash = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
-    __table_args__ = (
-        CheckConstraint("type IN ('Technik', 'Bar')"),
-        CheckConstraint("status IN ('Verfügbar', 'Ausgeliehen')"),
-    )
+# Inventory-Tabelle (Inventarverwaltung)
+class Inventory(Base):
+    __tablename__ = "inventory"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    category = Column(String, nullable=False)
+    status = Column(String, default="available")  # z.B. "available", "loaned"
+    location = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)

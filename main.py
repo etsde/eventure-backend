@@ -19,6 +19,10 @@ def get_db():
     finally:
         db.close()
 
+@app.get("/")
+def read_root():
+    return {"message": "Datenbank ist bereit!"}
+
 @app.get("/inventory", response_model=list[schemas.Inventory])
 def read_inventory(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.get_inventory(db, skip=skip, limit=limit)
