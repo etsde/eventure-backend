@@ -1,13 +1,12 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 from models import Base
-from crud import (
-    get_inventory,
-    create_inventory,
-    update_inventory,
-    delete_inventory
-)
+from crud import get_inventory, create_inventory, update_inventory, delete_inventory
 from schemas import InventoryCreate, InventoryUpdate, Inventory
 
 # Datenbanktabellen erstellen
